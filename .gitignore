@@ -1,0 +1,14 @@
+*.class
+out/
+build/
+bin/
+.idea/
+*.iml
+.project
+.classpath
+.settings/
+target/
+.gradle/
+*.jar
+.DS_Store
+Thumbs.db
