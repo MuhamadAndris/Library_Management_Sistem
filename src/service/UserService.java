@@ -1,6 +1,7 @@
 package src.service;
 import src.model.Library;
 import src.model.User;
+import src.util.ConsoleUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 public class UserService {
     private List<User> users;
     Library library = new Library();
+    ConsoleUtils cUtils = new ConsoleUtils();
 
     public UserService() {
         users = new ArrayList<>();
@@ -55,7 +57,44 @@ public class UserService {
 
     public List<User> searchUser(String keyword) {
         List<User> results = new ArrayList<>();
-        // buat metode nya
+
+        try {
+            // Search with Id
+            Integer key = Integer.parseInt(keyword);
+            for (User user : users) {
+                if (user.getUserId() == key) {
+                    results.add(user);
+                }
+            }
+
+        } catch (NumberFormatException e) {
+            // Search with Name
+            for (User user : users) {
+                if (user.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                    results.add(user);
+                }
+            }            
+            
+            // Search with E-mail
+            if (results.isEmpty()) {
+                for (User user : users) {
+                    if (user.getEmail().toLowerCase().contains(keyword.toLowerCase())) {
+                        results.add(user);
+                    }
+                }
+            }            
+
+            // Search with Address
+            if (results.isEmpty()) {
+                // Search with E-mail
+                for (User user : users) {
+                    if (user.getAddress().toLowerCase().contains(keyword.toLowerCase())) {
+                        results.add(user);
+                    }
+                }
+            }            
+        }
+
         return results;
     }
 
