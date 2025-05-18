@@ -21,38 +21,8 @@ public class UserService {
         users.add(new User(5, "Helmi Rahman", "helmi.rahman@example.com", "Jl. Cibinong Raya, Bogor"));
     }
 
-    public void showUsers() {
-        int width = ((library.getWidth() -33) / 2);
-        if (users.isEmpty()) {
-            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "", "Tidak ada", "", "");
-        } else {
-            // Colomn
-            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "ID", "Username", "E-mail", "Alamat");
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-            
-            for (User user : users) {
-                // Rows
-                System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", user.getUserId(), user.getName(), user.getEmail(), user.getAddress());
-            }
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-        }
-    }
-    
-    public void showUsers(List<User> display) {
-        int width = ((library.getWidth() -33) / 2);
-        if (users.isEmpty()) {
-            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "", "Tidak ada", "", "");
-        } else {
-            // Colomn
-            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "ID", "Username", "E-mail", "Alamat");
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-            
-            for (User user : display) {
-                // Rows
-                System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", user.getUserId(), user.getName(), user.getEmail(), user.getAddress());
-            }
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-        }
+    public List<User> getUsers () {
+        return users;
     }
 
     public List<User> searchUser(String keyword) {
@@ -102,11 +72,11 @@ public class UserService {
         return true;
     }
 
-    public boolean editUser() {
+    public boolean editUser(int userId) {
         return true;
     }
     
-    public boolean deleteUser() {
+    public boolean deleteUser(int userId) {
         return true;
     }
 

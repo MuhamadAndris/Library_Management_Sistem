@@ -1,5 +1,6 @@
 package src.cli;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,91 +11,153 @@ import src.util.ConsoleUtils;
 
 public class UsersCLI {
     ConsoleUtils cUtils = new ConsoleUtils();
-    Library moLibrary = new Library();
+    Library library = new Library();
     UserService userService = new UserService();
-    List<String> items = Arrays.asList("Lihat Daftar Anggota", "Tambah Anggota", "Cari Anggota", "Kembali");
+    List<User> results = new ArrayList<>();
+    List<User> users = userService.getUsers();
+    List<String> mainMenuItems = Arrays.asList("Lihat Daftar Anggota", "Tambah Anggota", "Cari Anggota", "Kembali");
 
     public void manageUsers() {
         while (true) {
-            cUtils.format_display("Manajemen Anggota", items);
+            cUtils.format_display("Manajemen Anggota", mainMenuItems);
             String input = cUtils.inputOption();
 
-            if (input.equals("4")) { // kembali
-                break;
+            if (input.matches("[1-4]")) {
+                if (input.equals("4")) break;
+                selectManageUsers(input);
+            } else {
+                cUtils.pauseEnter("Pilihan tidak valid. Coba lagi.");
             }
-
-            selectManageUsers(input);
         }
     }
 
-    public void selectManageUsers(String menu) {
+    private void selectManageUsers(String menu) {
+        cUtils.clear_screen();
         switch (menu.trim()) {
             case "1": // Show All Users
-                cUtils.header("Daftar Anggota");
-                userService.showUsers();
-                cUtils.menu(items);
-                selectManageUsers(cUtils.inputOption());
+                showUserMenu();
                 break;
             
             case "2": // Add user
-                boolean added = userService.addUser();
-                cUtils.clear_screen();
-                cUtils.pauseEnter(added ? "Anggota berhasil ditambahkan" : "Anggota gagall ditambahkan");
-                selectManageUsers("1");
+                addUserMenu();
                 break;
             
             case "3": // Search User
                 searchUserMenu();
                 break;
-
-            default:
-                cUtils.clear_screen();
-                cUtils.pauseEnter("Pilihan tidak tersedia");
-                break;
         }
     }
 
-    public void manageSinggleUser(String menu) {
+    private void manageSingleUser(String menu, int userId) {
         cUtils.clear_screen();
         switch (menu) {
             case "1" : // Edit
-                boolean edited = userService.editUser();
-                cUtils.pauseEnter(edited ? "Buku berhasil diubah" : "Buku gagal diubah");
+                boolean edited = userService.editUser(userId);
+                cUtils.pauseEnter(edited ? "Anggota berhasil diubah" : "Anggota gagal diubah");
                 break;
 
             case "2": // Delete
-                boolean deleted = userService.deleteUser();
-                cUtils.pauseEnter(deleted ? "Buku berhasil dihapus" : "Buku gagal dihapus");
-                selectManageUsers("1");
-                break;
-
-            default:
-                cUtils.pauseEnter("Pilihan tidak tersedia");
+                boolean deleted = userService.deleteUser(userId);
+                cUtils.pauseEnter(deleted ? "Anggota berhasil dihapus" : "Anggota gagal dihapus");
                 break;
         }
+
+        cUtils.header("Data Anggota Terbaru");
+        showUserWithId(userId);
     }
 
     private void searchUserMenu() {
         cUtils.header("Cari Anggota");
-        userService.showUsers();
-        List<User> results = userService.searchUser(cUtils.input("Masukan ID/Nama/Alamat > "));
-        cUtils.header("Cari Anggota");
-        userService.showUsers(results);
-        if (results.size() == 1) {
-            List<String> sub_menu = Arrays.asList("Ubah", "Hapus", "kembali");
-            cUtils.menu(sub_menu);
+        showUsers();
 
-            while (true) {
-                String input = cUtils.inputOption();
-                if (input.equals("3")) { // back
-                    break;
+        do {
+            String keyWord = cUtils.input("Masukan ID/Nama/E-Mail/Alamat (atau ketik 'kembali') > ");
+            if (keyWord.equalsIgnoreCase("kembali")) break;
+
+            results = userService.searchUser(keyWord);
+            
+            cUtils.header("Cari Anggota");
+            showUsers(results);
+
+            if (results.size() == 1) {
+
+                int userId = results.get(0).getUserId();
+                List<String> sub_menu = Arrays.asList("Ubah", "Hapus", "kembali");
+                
+                while (true) {
+                    cUtils.menu(sub_menu);
+                    String input = cUtils.inputOption();
+                    if (input.matches("[1-3]")) {
+                        if (input.equals("3")) break;
+                        
+                        manageSingleUser(input, userId);
+                    } else {
+                        cUtils.pauseEnter("Pilihan tidak valid. Coba lagi.");
+                    }
+                    
                 }
-
-                manageSinggleUser(input);
             }
+
+        } while (results.size() != 1);
+    }
+
+    private void showUserMenu() {
+        cUtils.header("Daftar Anggota");
+        showUsers();
+        cUtils.menu(mainMenuItems);
+        selectManageUsers(cUtils.inputOption());
+    }
+
+    private void addUserMenu() {
+        boolean added = userService.addUser();
+        cUtils.pauseEnter(added ? "Anggota berhasil ditambahkan" : "Anggota gagal ditambahkan");
+        selectManageUsers("1");
+    }
+
+    private void showUsers() {
+        int width = ((library.getWidth() -33) / 2);
+        if (users.isEmpty()) {
+            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "", "Tidak ada", "", "");
         } else {
-            cUtils.menu(items);
-            selectManageUsers(cUtils.inputOption());
+            // Colomn
+            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "ID", "Username", "E-mail", "Alamat");
+            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
+            
+            for (User user : users) {
+                // Rows
+                System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", user.getUserId(), user.getName(), user.getEmail(), user.getAddress());
+            }
+            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
         }
     }
+
+    private void showUsers(List<User> display) {
+        int width = ((library.getWidth() -33) / 2);
+        if (users.isEmpty()) {
+            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "", "Tidak ada", "", "");
+        } else {
+            // Colomn
+            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "ID", "Username", "E-mail", "Alamat");
+            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
+            
+            for (User user : display) {
+                // Rows
+                System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", user.getUserId(), user.getName(), user.getEmail(), user.getAddress());
+            }
+            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
+        }
+    }
+
+    private void showUserWithId(int userId) {
+        List<User> results = new ArrayList<>();
+        for(User user : users) {
+            if (user.getUserId() == userId) {
+                results.add(user);
+                break;
+            }
+        }
+
+        showUsers(results);
+    }
+
 }
