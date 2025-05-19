@@ -14,7 +14,6 @@ public class UsersCLI {
     Library library = new Library();
     UserService userService = new UserService();
     List<User> results = new ArrayList<>();
-    List<User> users = userService.getUsers();
     List<String> mainMenuItems = Arrays.asList("Lihat Daftar Anggota", "Tambah Anggota", "Cari Anggota", "Kembali");
 
     public void manageUsers() {
@@ -48,27 +47,20 @@ public class UsersCLI {
         }
     }
 
-    private void manageSingleUser(String menu, int userId) {
-        cUtils.clear_screen();
-        switch (menu) {
-            case "1" : // Edit
-                boolean edited = userService.editUser(userId);
-                cUtils.pauseEnter(edited ? "Anggota berhasil diubah" : "Anggota gagal diubah");
-                break;
+    private void showUserMenu() {
+        showAllUsers();
+        cUtils.menu(mainMenuItems);
+        selectManageUsers(cUtils.inputOption());
+    }
 
-            case "2": // Delete
-                boolean deleted = userService.deleteUser(userId);
-                cUtils.pauseEnter(deleted ? "Anggota berhasil dihapus" : "Anggota gagal dihapus");
-                break;
-        }
-
-        cUtils.header("Data Anggota Terbaru");
-        showUserWithId(userId);
+    private void addUserMenu() {
+        boolean added = userService.addUser();
+        cUtils.pauseEnter(added ? "Anggota berhasil ditambahkan" : "Anggota gagal ditambahkan");
     }
 
     private void searchUserMenu() {
         cUtils.header("Cari Anggota");
-        showUsers();
+        showAllUsers();
 
         do {
             String keyWord = cUtils.input("Masukan ID/Nama/E-Mail/Alamat (atau ketik 'kembali') > ");
@@ -101,29 +93,35 @@ public class UsersCLI {
         } while (results.size() != 1);
     }
 
-    private void showUserMenu() {
+    private void manageSingleUser(String menu, int userId) {
+        cUtils.clear_screen();
+        switch (menu) {
+            case "1" : // Edit
+                boolean edited = userService.editUser(userId);
+                cUtils.pauseEnter(edited ? "Anggota berhasil diubah" : "Anggota gagal diubah");
+                break;
+
+            case "2": // Delete
+                boolean deleted = userService.deleteUser(userId);
+                cUtils.pauseEnter(deleted ? "Anggota berhasil dihapus" : "Anggota gagal dihapus");
+                break;
+        }
+
+        cUtils.header("Data Anggota Terbaru");
+        showUserWithId(userId);
+    }
+
+    private void showUsers(List<User> displayUsers) {
         cUtils.header("Daftar Anggota");
-        showUsers();
-        cUtils.menu(mainMenuItems);
-        selectManageUsers(cUtils.inputOption());
-    }
-
-    private void addUserMenu() {
-        boolean added = userService.addUser();
-        cUtils.pauseEnter(added ? "Anggota berhasil ditambahkan" : "Anggota gagal ditambahkan");
-        selectManageUsers("1");
-    }
-
-    private void showUsers() {
         int width = ((library.getWidth() -33) / 2);
-        if (users.isEmpty()) {
+        if (displayUsers.isEmpty()) {
             System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "", "Tidak ada", "", "");
         } else {
             // Colomn
             System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "ID", "Username", "E-mail", "Alamat");
             System.out.println("+" + "-".repeat(library.getWidth()) + "+");
             
-            for (User user : users) {
+            for (User user : displayUsers) {
                 // Rows
                 System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", user.getUserId(), user.getName(), user.getEmail(), user.getAddress());
             }
@@ -131,25 +129,13 @@ public class UsersCLI {
         }
     }
 
-    private void showUsers(List<User> display) {
-        int width = ((library.getWidth() -33) / 2);
-        if (users.isEmpty()) {
-            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "", "Tidak ada", "", "");
-        } else {
-            // Colomn
-            System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "ID", "Username", "E-mail", "Alamat");
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-            
-            for (User user : display) {
-                // Rows
-                System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", user.getUserId(), user.getName(), user.getEmail(), user.getAddress());
-            }
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-        }
+    private void showAllUsers() {
+        showUsers(userService.getUsers());
     }
 
     private void showUserWithId(int userId) {
         List<User> results = new ArrayList<>();
+        List<User> users = userService.getUsers();
         for(User user : users) {
             if (user.getUserId() == userId) {
                 results.add(user);

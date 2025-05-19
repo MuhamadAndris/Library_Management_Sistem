@@ -25,27 +25,6 @@ public class BookService {
         return books;
     }
 
-    public void showBook(List<Book> books) {
-        if (books.isEmpty()) {
-            System.out.printf("| %-2s | %-" + (library.getWidth()-41) + "s | %-15s | %-12s  |\n", "", "Tidak ada", "", "");
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-        } else {
-            // Colomn
-            System.out.printf("| %-2s | %-" + (library.getWidth()-41) + "s | %-15s | %-12s  |\n", "ID", "Judul", "Penulis", "Tahun Terbit");
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-            
-            for (Book book : books) {
-                System.out.printf("| %-2s | %-" + (library.getWidth()-41) + "s | %-15s | %-12s  |\n", book.getBookId(), book.getTitle(), book.getAuthor(), book.getYear());
-            }
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
-        }
-    }
-
-    public void showAllBooks() {
-        cUtils.header("Daftar Buku");
-        showBook(getBooks());
-    }
-    
     public List<Book> searchBook(String keyWord) {
         List<Book> results = new ArrayList<>();
 
@@ -88,48 +67,8 @@ public class BookService {
         return results;
     }
 
-    public void addBook() {
-        Integer bookId;
-        Integer year;
-        
-        while (true) {
-            cUtils.clear_screen();
-            try {
-                bookId = Integer.parseInt(cUtils.input("Masukan ID : "));
-                for (Book book : books) {
-                    if (book.getBookId() == bookId) {
-                        cUtils.pauseEnter("ID yang dimasukan sudah ada, harap masukan ID lain...");
-                        addBook();
-                    }
-                }
-                break;
-            } catch (NumberFormatException e) {
-                cUtils.pauseEnter("Harap masuakn angka/Nomor...");
-            }
-        }
-
-        cUtils.clear_screen();
-        String title = cUtils.input("Masukan judul Buku  : ");
-        cUtils.clear_screen();
-        String author = cUtils.input("Masukan Penulis: ");
-        
-        while (true) {
-            cUtils.clear_screen();
-            try {
-                year = Integer.parseInt(cUtils.input("Masukan Tahun Rilis   : "));
-                break;
-            } catch (NumberFormatException e) {
-                cUtils.pauseEnter("Harap masuakn angka/Nomor...");
-            }
-        }
-
-        Book newBok = new Book(bookId, title, author, year);
-        books.add(newBok);
-        
-        cUtils.header("New Books Added");
-        showBook(searchBook(Integer.toString(bookId)));
-
-            
+    public boolean addBook() {
+        return true;
     }
 
     public boolean editBook() {
