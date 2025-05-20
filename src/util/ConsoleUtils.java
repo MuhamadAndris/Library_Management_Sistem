@@ -37,6 +37,7 @@ public class ConsoleUtils {
     }
 
     public void pauseEnter(String massage) {
+        clear_screen();
         System.out.print(massage  + "\n\nTekan Enter Untuk melanjutkan > ");
         input();
     }

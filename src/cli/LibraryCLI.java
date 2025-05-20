@@ -7,7 +7,7 @@ import src.model.Library;
 public class LibraryCLI {
     BookCLI bookCLI = new BookCLI();
     UsersCLI usersCLI = new  UsersCLI();
-    BrrowingCLI brrowingCLI = new BrrowingCLI();
+    BorrowingCLI brrowingCLI = new BorrowingCLI();
     ConsoleUtils cUtils = new ConsoleUtils();
     Library moLib = new Library();
 
@@ -31,7 +31,7 @@ public class LibraryCLI {
                 break;
             
            case "3":
-                brrowingCLI.manageBrrowing();
+                brrowingCLI.manageBorrowing();
                 break;
             
             case "4":
@@ -40,7 +40,6 @@ public class LibraryCLI {
                 break;
 
             default:
-                cUtils.clear_screen();
                 cUtils.pauseEnter("Pilihan tidak tersedia");
                 showMainMenu();
                 break;

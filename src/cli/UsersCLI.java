@@ -94,7 +94,6 @@ public class UsersCLI {
     }
 
     private void manageSingleUser(String menu, int userId) {
-        cUtils.clear_screen();
         switch (menu) {
             case "1" : // Edit
                 boolean edited = userService.editUser(userId);
@@ -111,7 +110,7 @@ public class UsersCLI {
         showUserWithId(userId);
     }
 
-    private void showUsers(List<User> displayUsers) {
+    public void showUsers(List<User> displayUsers) {
         cUtils.header("Daftar Anggota");
         int width = ((library.getWidth() -33) / 2);
         if (displayUsers.isEmpty()) {

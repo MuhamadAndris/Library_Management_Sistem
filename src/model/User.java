@@ -48,7 +48,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Id: " + userId + "name: " + name + ", email: " + email + ", alamat: " + address;
+        return "Id: " + userId + ", name: " + name + ", email: " + email + ", alamat: " + address;
     }
 
 }

@@ -43,7 +43,6 @@ public class BookCLI {
                 break;
 
             default:
-                cUtils.clear_screen();
                 cUtils.pauseEnter("Pilihan tidak tersedia");
                 break;
         }
@@ -56,7 +55,6 @@ public class BookCLI {
     }
     
     private void addBookMenu() {
-        cUtils.clear_screen();
         boolean added = bookService.addBook();
         cUtils.pauseEnter(added ? "Buku berhasil ditambahkan" : "Buku Gagal ditambahkan");
     }
