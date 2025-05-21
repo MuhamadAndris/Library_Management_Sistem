@@ -37,10 +37,10 @@ public class ReportCLI {
 
 
     public void handleShowAllLoan() {
+        cUtils.clear_screen();
         for (Loan loan : loanList) {
             System.out.println(loan);
         }
-        cUtils.clear_screen();
         cUtils.input("Tekan Enter untuk Kembali...");
 
         // ini contohnya bang rozi, sialhkan dikembangkan
