@@ -1,6 +1,5 @@
 package src.model;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 public class Loan { 
     private String loanId;          // Id transaksi pinjam/kembalikan
@@ -18,25 +17,8 @@ public class Loan {
         this.book = book;
         this.borrowDate = LocalDate.now();
         this.returnDate = borrowDate.plusDays(7); // otomatis tambah +7 hari
-        this.status = "Borrowed";
+        this.status = "Dipinjam";
         this.fine = 0.0;
-    }
-
-    // Method to return the book
-    public void returnBook() {
-        if (LocalDate.now().isAfter(returnDate)) {
-            status = "Late";
-            fine = calculateFine();
-        } else {
-            status = "Returned";
-            fine = 0.0;
-        }
-    }
-
-    // Penghitungan denda keterlambatan
-    private double calculateFine() {
-        long lateDays = ChronoUnit.DAYS.between(returnDate, LocalDate.now());
-        return lateDays * 1000; 
     }
 
     // Getters dan Setters
@@ -98,7 +80,7 @@ public class Loan {
 
     @Override
     public String toString() {
-        return "ID : " + loanId + ", Judul Buku : " + book.getTitle() + ", Nama Anggota : " + user.getName() + ", Tanggal Pinjam : " + borrowDate + ", Tanggal Pengembalian : " + returnDate;
+        return "ID : " + loanId + ", Judul Buku : " + book.getTitle() + ", Nama Anggota : " + user.getName() + ", Tanggal Pinjam : " + borrowDate + ", Tanggal Pengembalian : " + returnDate + ", Status : " + status;
     }
  }
 

@@ -43,6 +43,12 @@ public class LoanCLI {
     }
 
     private void handleReturnBook() {
-        // nepi
+        // nepi untuk pengembaliannya itu seperti ini ya prosessnya
+        // 1. cari user yang mau mengembalikan buku
+        // 2. cari buku yang mau di kembalikan
+        // 3. jalankan fucntion/metode dibawah ini
+        // 4. prosesnya tinggal ganti status dari loan ya, yang tadi nya "dipinjam" jadi "dikembalikan"
+
+        loanService.returnLoan();
     }
 }

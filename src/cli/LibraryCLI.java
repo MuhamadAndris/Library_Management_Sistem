@@ -33,7 +33,7 @@ public class LibraryCLI {
                 break;
             
            case "3":
-                brrowingCLI.manageBorrowing();
+                brrowingCLI.manageLoan();
                 break;
             
             case "4": 
