@@ -67,15 +67,15 @@ public class BookService {
         return results;
     }
 
-    public boolean addBook() {
+    public boolean addBook() { // Bang Rozi
+        return true; 
+    }
+
+    public boolean editBook() { // Tomo
         return true;
     }
 
-    public boolean editBook() {
-        return true;
-    }
-
-    public boolean deleteBook() {
+    public boolean deleteBook() { // Nepi
         return true;
     }
 

@@ -68,15 +68,15 @@ public class UserService {
         return results;
     }
 
-    public boolean addUser() {
+    public boolean addUser() { //  Bg Rozi
         return true;
     }
 
-    public boolean editUser(int userId) {
+    public boolean editUser(int userId) { // Bg Tomo
         return true;
     }
     
-    public boolean deleteUser(int userId) {
+    public boolean deleteUser(int userId) { // Nepi
         return true;
     }
 

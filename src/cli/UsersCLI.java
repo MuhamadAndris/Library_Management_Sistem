@@ -54,6 +54,11 @@ public class UsersCLI {
     }
 
     private void addUserMenu() {
+        String userId = cUtils.input("Masukan Id: ");
+        String name = cUtils.input("Masukan Nama : ");
+        
+        System.out.println(name + userId);
+        
         boolean added = userService.addUser();
         cUtils.pauseEnter(added ? "Anggota berhasil ditambahkan" : "Anggota gagal ditambahkan");
     }
