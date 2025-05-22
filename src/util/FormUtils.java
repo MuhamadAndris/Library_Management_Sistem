@@ -3,9 +3,9 @@ package src.util;
 public class FormUtils {
     ConsoleUtils cUtils = new ConsoleUtils();
 
-    public String editStringField(String label, String oldValue) {
+    public String editStringField(String entiti, String label, String oldValue) {
         cUtils.clear_screen();
-        System.out.println("============= UBAH DATA BUKU =============");
+        System.out.println("============= UBAH DATA " + entiti + " =============");
         System.out.println("[Ketik 'batal' untuk membatalkan]\n");
         System.out.println("Ubah " + label);
         System.out.println("Sebelumnya (" + oldValue + ")");
@@ -16,10 +16,10 @@ public class FormUtils {
         return input.trim();
     }
 
-    public Integer editIntegerField(String label, int oldValue) {
+    public Integer editIntegerField(String entiti, String label, int oldValue) {
         while (true) {
             cUtils.clear_screen();
-            System.out.println("============= UBAH DATA BUKU =============");
+            System.out.println("============= UBAH DATA " + entiti + " =============");
             System.out.println("[Ketik 'batal' untuk membatalkan]\n");
             System.out.println("Ubah " + label);
             System.out.println("Sebelumnya (" + oldValue + ")");
@@ -36,12 +36,12 @@ public class FormUtils {
         }
     }
 
-    public String addStringField(String label, String data) {
+    public String addStringField(String entiti, String label) {
         while (true) {
             cUtils.clear_screen();
-            System.out.println("============= TAMBAH " + label + " =============");
+            System.out.println("============= TAMBAH " + entiti + " =============");
             System.out.println("[Ketik 'batal' untuk membatalkan]\n");
-            String input = cUtils.input("Masukan " + data + " : ");
+            String input = cUtils.input("Masukan " + label + " : ");
 
             if (input.trim().equalsIgnoreCase("batal")) return null;
             if (input.isBlank()) {
@@ -52,12 +52,12 @@ public class FormUtils {
         }
     }
     
-    public Integer addIntegerField(String label, String data) {
+    public Integer addIntegerField(String entiti, String label) {
         while (true) {
             cUtils.clear_screen();
-            System.out.println("============= TAMBAH " + label + " =============");
+            System.out.println("============= TAMBAH " + entiti + " =============");
             System.out.println("[Ketik 'batal' untuk membatalkan]\n");
-            String input = cUtils.input("Masukan " + data + " : ");
+            String input = cUtils.input("Masukan " + label + " : ");
 
             if (input.trim().equalsIgnoreCase("batal")) return null;
             if (input.isBlank()) {

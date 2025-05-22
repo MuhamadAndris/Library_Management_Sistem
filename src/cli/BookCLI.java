@@ -73,7 +73,11 @@ public class BookCLI {
         List<String> sub_menu = Arrays.asList("Ubah", "Hapus", "kembali");
         
         while (true) {
+            cUtils.clear_screen();
+            cUtils.header("BUKU HASIL PENCARIAN");
+            showBookById(selectedBook.getBookId());
             cUtils.menu(sub_menu);
+            
             String input = cUtils.inputOption();
             if (input.matches("[1-3]")) {
                 if (input.equals("3")) break;
@@ -86,13 +90,10 @@ public class BookCLI {
                         break;
                     case "2" : 
                         handleDeleteBook(selectedBook);
-                        return;
+                        break;
                     }
             } else {
                 cUtils.pauseEnter("Pilihan tidak valid. Coba lagi.");
-                cUtils.clear_screen();
-                cUtils.header("BUKU HASIL PENCARIAN");
-                showBookById(selectedBook.getBookId());
             }
             
         }
@@ -120,13 +121,13 @@ public class BookCLI {
     public void handleEditBook(Book book) {
         int bookId = book.getBookId();
 
-        String newTitle = fUtils.editStringField("Judul Buku", book.getTitle());
+        String newTitle = fUtils.editStringField("BUKU", "Judul Buku", book.getTitle());
         if (newTitle == null) return;
 
-        String newAuthor = fUtils.editStringField("Nama Penulis Buku", book.getAuthor());
+        String newAuthor = fUtils.editStringField("BUKU", "Nama Penulis Buku", book.getAuthor());
         if (newAuthor == null) return;
 
-        Integer newYear = fUtils.editIntegerField("Tahun Rilis Buku", book.getYear());
+        Integer newYear = fUtils.editIntegerField("BUKU", "Tahun Rilis Buku", book.getYear());
         if (newYear == null) return;
 
         boolean edited = bookService.editBook(bookId, newTitle, newAuthor, newYear);

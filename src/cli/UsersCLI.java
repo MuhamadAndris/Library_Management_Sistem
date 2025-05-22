@@ -92,7 +92,11 @@ public class UsersCLI {
         List<String> subMenu = Arrays.asList("Ubah", "Hapus", "Kembali");
 
         while (true) {
+            cUtils.clear_screen();
+            cUtils.header("HASIL PENCARIAN ANGGOTA");
+            showUserById(selectedUser.getUserId());
             cUtils.menu(subMenu);
+            
             String input = cUtils.inputOption();
             if (input.matches("[1-3]")) {
                 if (input.equals("3")) break;
@@ -100,19 +104,17 @@ public class UsersCLI {
                 switch (input) {
                     case "1" -> {
                         handleEditUser(selectedUser);
+                        cUtils.clear_screen();
                         cUtils.header("Data Anggota Terbaru");
                         showUserById(selectedUser.getUserId());
                     }
                     case "2" -> {
                         handleDeleteUser(selectedUser);
-                        return;
+                        break;
                     }
                 }
             } else {
                 cUtils.pauseEnter("Pilihan tidak valid. Coba lagi.");
-                cUtils.clear_screen();
-                cUtils.header("HASIL PENCARIAN ANGGOTA");
-                showUserById(selectedUser.getUserId());
             }
         }
     }
@@ -120,13 +122,13 @@ public class UsersCLI {
     private void handleEditUser(User user) {
         int userId = user.getUserId();
 
-        String newName = fUtils.editStringField("Nama", user.getName());
+        String newName = fUtils.editStringField("ANGGOTA", "Nama", user.getName());
         if (newName == null) return;
 
-        String newEmail = fUtils.editStringField("Email", user.getEmail());
+        String newEmail = fUtils.editStringField("ANGGOTA", "Email", user.getEmail());
         if (newEmail == null) return;
 
-        String newAddress = fUtils.editStringField("Alamat", user.getAddress());
+        String newAddress = fUtils.editStringField("ANGGOTA", "Alamat", user.getAddress());
         if (newAddress == null) return;
 
         boolean edited = userService.editUser(userId, newName, newEmail, newAddress);
@@ -155,10 +157,6 @@ public class UsersCLI {
             cUtils.line();
         }
     }
-
-    // private void showAllUsers() {
-    //     showUsers(userService.getUsers());
-    // }
 
     private void showUserById(int userId) {
         List<User> result = new ArrayList<>();
