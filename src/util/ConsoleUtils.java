@@ -2,11 +2,8 @@ package src.util;
 import java.util.Scanner;
 import java.util.List;
 
-import src.model.Library;
-
 public class ConsoleUtils {
     Scanner scanner = new Scanner(System.in);
-    Library lib = new Library();
 
     public String input() {
         return scanner.nextLine().trim();
@@ -50,22 +47,43 @@ public class ConsoleUtils {
     }
 
     public void header(String title) {
-        clear_screen();
-        System.out.println("+" + "-".repeat(lib.getWidth()) + "+");
-        System.out.println("|" + textCenter(title, lib.getWidth()) + "|");
-        System.out.println("+" + "-".repeat(lib.getWidth()) + "+");
+        System.out.println("+" + "-".repeat(100) + "+");
+        System.out.println("|" + textCenter(title.toUpperCase(), 100) + "|");
+        System.out.println("+" + "-".repeat(100) + "+");
     }
 
     public void menu(List<String> items) {
         for (int i = 0; i < items.size(); i++) {
             String row = String.format("| %" + String.valueOf(items.size()).length() + "s." + items.get(i), i + 1);
-            System.out.println(row + " ".repeat(lib.getWidth() - row.length()) + " |");
+            System.out.println(row + " ".repeat(100 - row.length()) + " |");
         }
-        System.out.println("+" + "-".repeat(lib.getWidth()) + "+");
+        System.out.println("+" + "-".repeat(100) + "+");
     }
     
     public void format_display (String title, List<String> items) {
+        clear_screen();
         header(title);
         menu(items);
+    }
+
+    public boolean confirm(String massage) {
+        String input = input(massage + " y/t > ");
+        if (input.trim().equalsIgnoreCase("y")) {
+            return true;
+        } else  {
+            return false;
+        }
+    }
+
+    public void columnBook() {
+        System.out.printf("| %-2s | %-59s | %-15s | %-12s  |\n", "ID", "Judul", "Penulis", "Tahun Terbit");
+    }
+
+    public void columnBookIsEmpty() {
+        System.out.printf("| %-2s | %-59s | %-15s | %-12s  |\n", "", "Tidak ada", "", "");
+    }
+
+    public void line() {
+        System.out.println("+" + "-".repeat(100) + "+");
     }
 }   

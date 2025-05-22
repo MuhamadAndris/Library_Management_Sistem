@@ -1,6 +1,5 @@
 package src.service;
 import src.model.Book;
-import src.model.Library;
 import src.util.ConsoleUtils;
 
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.List;
 
 public class BookService {
     private List<Book> books = new ArrayList<>();
-    Library library = new Library();
     ConsoleUtils cUtils = new ConsoleUtils();
 
     public BookService() {
@@ -67,16 +65,42 @@ public class BookService {
         return results;
     }
 
-    public boolean addBook() { // Bang Rozi
-        return true; 
+    public boolean addBook(int bookId, String title, String author, int year) {
+        try {
+            books.add(new Book(bookId, title, author, year));
+            return true;
+        } catch (NegativeArraySizeException e) {
+            return false;
+        }
     }
 
-    public boolean editBook() { // Tomo
-        return true;
+    public boolean editBook(int bookId, String newTitle, String newAuthor, Integer newYear) {
+        try {
+            for (Book book : books) {
+                if (book.getBookId() == bookId) {
+                    book.setTitle(newTitle);
+                    book.setAuthor(newAuthor);
+                    book.setYear(newYear);
+                }
+            }
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        
     }
 
-    public boolean deleteBook() { // Nepi
-        return true;
+    public boolean deleteBook(Book selectedBook) {
+        int bookId = selectedBook.getBookId();
+
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).getBookId() == bookId) {
+                books.remove(i);
+                return true;
+            }
+        }
+        
+        return false;
     }
 
 }

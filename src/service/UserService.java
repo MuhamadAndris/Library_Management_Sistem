@@ -1,5 +1,4 @@
 package src.service;
-import src.model.Library;
 import src.model.User;
 import src.util.ConsoleUtils;
 
@@ -8,7 +7,6 @@ import java.util.List;
 
 public class UserService {
     private List<User> users;
-    Library library = new Library();
     ConsoleUtils cUtils = new ConsoleUtils();
 
     public UserService() {

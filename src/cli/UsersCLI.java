@@ -4,14 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import src.model.Library;
 import src.model.User;
 import src.service.UserService;
 import src.util.ConsoleUtils;
 
 public class UsersCLI {
     ConsoleUtils cUtils = new ConsoleUtils();
-    Library library = new Library();
     UserService userService = new UserService();
     List<User> results = new ArrayList<>();
     List<String> mainMenuItems = Arrays.asList("Lihat Daftar Anggota", "Tambah Anggota", "Cari Anggota", "Kembali");
@@ -117,19 +115,19 @@ public class UsersCLI {
 
     public void showUsers(List<User> displayUsers) {
         cUtils.header("Daftar Anggota");
-        int width = ((library.getWidth() -33) / 2);
+        int width = ((100 -33) / 2);
         if (displayUsers.isEmpty()) {
             System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "", "Tidak ada", "", "");
         } else {
             // Colomn
             System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", "ID", "Username", "E-mail", "Alamat");
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
+            System.out.println("+" + "-".repeat(100) + "+");
             
             for (User user : displayUsers) {
                 // Rows
                 System.out.printf("| %-2s | %-20s | %-" + width + "s | %-" + width + "s  |\n", user.getUserId(), user.getName(), user.getEmail(), user.getAddress());
             }
-            System.out.println("+" + "-".repeat(library.getWidth()) + "+");
+            System.out.println("+" + "-".repeat(100) + "+");
         }
     }
 
