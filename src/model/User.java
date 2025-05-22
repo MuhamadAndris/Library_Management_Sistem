@@ -48,7 +48,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "Id: " + userId + ", name: " + name + ", email: " + email + ", alamat: " + address;
+        return String.format("| %-2s | %-20s | %-32s | %-35s |\n", userId, name, email, address);
     }
 
 }

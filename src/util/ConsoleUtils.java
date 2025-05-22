@@ -75,6 +75,7 @@ public class ConsoleUtils {
         }
     }
 
+    // Book
     public void columnBook() {
         System.out.printf("| %-2s | %-59s | %-15s | %-12s  |\n", "ID", "Judul", "Penulis", "Tahun Terbit");
     }
@@ -85,5 +86,14 @@ public class ConsoleUtils {
 
     public void line() {
         System.out.println("+" + "-".repeat(100) + "+");
+    }
+
+    // User
+    public void columnUser() {
+        System.out.printf("| %-2s | %-20s | %-32s | %-35s |\n", "ID", "Nama", "Email", "Alamat");
+    }
+
+    public void columnUserIsEmpty() {
+        System.out.printf("| %-2s | %-20s | %-32s | %-35s |\n", "", "Tidak Ada", "", "");
     }
 }   

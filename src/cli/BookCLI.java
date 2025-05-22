@@ -135,13 +135,8 @@ public class BookCLI {
 
     public void handleDeleteBook(Book selectedBook) {
         boolean confirm = cUtils.confirm("Yakin mau menghapus Buku ini?");
-        boolean deleted;
-        if (confirm) {
-            deleted = bookService.deleteBook(selectedBook);
-        } else {
-            deleted = confirm;
-        }
-            cUtils.pauseEnter(deleted ? "Buku berhasil dihapus" : "Buku gagal dihapus");
+        boolean deleted = confirm && bookService.deleteBook(selectedBook);
+        cUtils.pauseEnter(deleted ? "Buku berhasil dihapus" : "Buku gagal dihapus");
     }
 
     // Metode data

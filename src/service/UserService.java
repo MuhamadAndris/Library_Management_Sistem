@@ -66,16 +66,37 @@ public class UserService {
         return results;
     }
 
-    public boolean addUser() { //  Bg Rozi
-        return true;
+    public boolean addUser(int userId, String name, String email, String address) {
+        try {
+            users.add(new User(userId, name, email, address));
+            return true;
+        } catch (NegativeArraySizeException e) {
+            return false;
+        }
     }
 
-    public boolean editUser(int userId) { // Bg Tomo
-        return true;
+    public boolean editUser(int userId, String name, String email, String address) {
+        for (User user : users) {
+            if (user.getUserId() == userId) {
+                user.setName(name);
+                user.setEmail(email);
+                user.setAddress(address);
+                return true;
+            }
+        }
+
+        return false;
     }
     
-    public boolean deleteUser(int userId) { // Nepi
-        return true;
+    public boolean deleteUser(User user) { 
+        for (int i = 0; i < users.size();i++) {
+            if (users.get(i).getUserId() == user.getUserId()) {
+                users.remove(i);
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
