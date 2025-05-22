@@ -1,11 +1,13 @@
 package src;
 import src.cli.LibraryCLI;
 import src.cli.LoginCLI;
+import src.util.ConsoleUtils;
 
 
 public class Main {
     public static void main(String[] args) {
         LoginCLI loginCLI = new LoginCLI();
+        ConsoleUtils cUtils = new ConsoleUtils();
 
         LibraryCLI libraryCLI = new LibraryCLI();
 
@@ -17,7 +19,9 @@ public class Main {
             }
 
             if (i < 3) {
-                System.out.println("\nBatas percobaan Login habis, Silahkan coba lagi nanti.");
+                System.out.println();
+                System.out.println(cUtils.textCenter("Batas percobaan Login habis, Silahkan coba lagi nanti.", 100));
+                System.out.println();
             }
         }
         

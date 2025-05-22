@@ -1,30 +1,40 @@
 package src.cli;
 
-import src.service.Login;
 import src.util.ConsoleUtils;
 
 public class LoginCLI {
     ConsoleUtils cUtils = new ConsoleUtils();
-    Login servLogin = new Login();
 
     public Boolean login() {
         cUtils.clear_screen();
-        System.out.println("=== Login ===");
+        cUtils.header("SISTEM MANAJEMEN PERPUSTAKAAN - LOGIN PANEL");
+        System.out.println();
+        System.out.println(cUtils.textCenter("Silakan masukkan username dan password Anda", 100));
+        System.out.println();
+        
+        String username = cUtils.input(" ".repeat(40) + "Username : ");
+        
+        String password = cUtils.input(" ".repeat(40) + "Password : ");
+        
+        System.out.println();
+        System.out.print(cUtils.textCenter("Memverifikasi data, mohon tunggu...", 100));
+        System.out.println();
+        System.out.println();
 
-        String username = cUtils.input("Username: ");
-        String password = cUtils.input("Password: ");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            System.out.println(cUtils.textCenter("Terjadi kesalahan saat memproses.", 100));
+        }
 
 
-        if (username.isEmpty() || password.isEmpty()) {
-            cUtils.pauseEnter("Username dan password tidak boleh kosong");
-            return false;
+        if (username.equals("admin") && password.equals("adm123")) {
+            return  true;
         } else {
-            if (servLogin.checkLogin(username, password)) {
-                return true;
-            } else {
-                cUtils.pauseEnter("Username atau password salah");
-                return false;
-            }
+            System.out.println(cUtils.textCenter("Login gagal! Username atau password salah.", 100));
+            System.out.println(cUtils.textCenter("Tekan Enter untuk mencoba lagi...", 100));
+            cUtils.input(" ".repeat(50));
+            return false;
         }
     }
 }
